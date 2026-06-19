@@ -4,29 +4,37 @@
     box-sizing: border-box;
 }
 
-html,body {
+html, body {
     height: 100%;
-    width : 100%;
+    width: 100%;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-primary-color);
-    color: var(--text-primary-color)
+    color: var(--text-primary-color);
 }
 
+/* ============================
+   CONTAINER
+   ============================ */
 .container {
-    display:flex;
-    /* justify-content: center;
-    align-items: center; */
+    display: flex;
+    flex-direction: column;   /* explicit direction, no guessing */
     width: 100%;
     min-height: 100vh;
     padding: 20px;
 }
 
+/* ============================
+   WEATHER CARD (outer shell)
+   ============================ */
 .weather-card {
     width: 100%;
-    /* max-width: 100%; */
+    min-height: 80vh;          /* gives a REAL height for children's % to use */
+    margin: 0 auto;
+    max-width: 2000px;
+    overflow: hidden;          /* contains any sizing bugs inside the card */
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(16px);
@@ -36,45 +44,29 @@ body {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 1.8rem;
     transition: transform 0.3s ease;
 }
 
-.weather-info {
-     flex: 1;
-    /* max-width: 500px; */
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 28px;
-    padding: var(--padding-xl);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: flex-end;
-    gap: 1.8rem;
-    transition: transform 0.3s ease;
-    
-}
-
+/* ============================
+   WEATHER MAIN (row: detailed + info)
+   ============================ */
 .weather-main {
     width: 100%;
+    height: 100%;               /* now resolves against weather-card's min-height */
     display: flex;
-    /* flex-direction: column; */
-     align-items: stretch;
+    flex-direction: row;
+    align-items: stretch;       /* both children match height, no flex-end hacks */
     text-align: center;
     flex: 1;
-    gap : 1rem;
+    gap: 1rem;
 }
 
 .weather-detailed {
-     flex: 0 0 70%;
-    /* max-width: 1500px; */
-    height: 100%;
+    flex: 0 0 70%;
+    height: 85vh;
+    
     background: linear-gradient(135deg, rgb(0, 0, 0), rgba(15, 39, 39, 0.801));
     border: 1px solid rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(16px);
@@ -85,21 +77,39 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    align-self: flex-end;
+    justify-content: center;
+    
     gap: 1.8rem;
     transition: transform 0.3s ease;
 }
 
+.weather-info {
+    flex: 1;
+    height: 100%;
+    
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 28px;
+    padding: var(--padding-xl);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8rem;
+    transition: transform 0.3s ease;
+}
 
-
+/* ============================
+   SEARCH BOX
+   ============================ */
 .search-box {
     width: 100%;
     max-width: 500px;
-    
     display: flex;
     align-items: center;
-    align-self: flex-end;
-    justify-content: flex-end; 
+    justify-content: flex-end;
     background-color: var(--bg-secondary-color);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
@@ -109,7 +119,6 @@ body {
 }
 
 .search-box:focus-within {
-    /* border-color: rgba(255, 255, 255, 0.2); */
     border-color: rgba(0, 179, 233, 0.795);
 }
 
@@ -127,6 +136,7 @@ body {
     font-family: inherit;
     font-size: 0.95rem;
     color: var(--text-primary-color);
+    min-width: 0;               /* prevents input from forcing overflow in flex */
 }
 
 .search-box input::placeholder {
@@ -136,6 +146,7 @@ body {
 .search-box button {
     height: 40px;
     width: 40px;
+    flex-shrink: 0;             /* button keeps its size, never gets squished */
     background-color: rgba(255, 255, 255, 0.06);
     border: none;
     border-radius: 18px;
@@ -149,35 +160,44 @@ body {
 
 .search-box button:hover {
     background-color: rgba(255, 255, 255, 0.12);
-   
 }
 
 .search-box button:active {
     transform: scale(0.95);
 }
 
-/* Dynamically Injected Weather Styles */
-
+/* ============================
+   WEATHER DISPLAY (results)
+   ============================ */
 .weather-icon {
     font-size: 5.5rem;
     margin-bottom: 0.5rem;
-    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
     animation: float 4s ease-in-out infinite;
 }
+
 #weather-icon {
-    width: 250px;
-    height: 250px;
+    width: clamp(120px, 20vw, 250px);   /* scales smoothly, no breakpoint jump */
+    height: clamp(120px, 20vw, 250px);
     object-fit: contain;
-}             
+}
 
 .hidden {
     visibility: hidden;
 }
 
-.weather-display-card {
-    width: 45vh;
+.weather-display {
+    width: 100%;
+    display: flex;
     flex: 1;
-    height: 72vh;
+}
+
+.weather-display-card {
+    width: 100%;
+    max-width: 425px;
+    min-height: 0;
+    flex: 1;
+    margin: 0 auto;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(16px);
@@ -188,13 +208,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-self: flex-end;
+    justify-content: center;
     gap: 1rem;
     transition: transform 0.3s ease;
 }
 
 .minor-details {
-    
+    width: 100%;
     background: hsl(0, 0%, 10%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(16px);
@@ -205,7 +225,71 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* align-self: flex-end; */
     gap: 1rem;
     transition: transform 0.3s ease;
+}
+
+/* ============================
+   RESPONSIVE BREAKPOINTS
+   ============================ */
+
+/* Tablet: shrink padding/sizes a bit, KEEP the row layout (per your request) */
+@media (max-width: 1024px) {
+    .weather-card {
+        padding: var(--padding-lg);
+        min-height: 75vh;
+    }
+
+    .weather-detailed {
+        flex: 0 0 60%;
+        padding: var(--padding-lg);
+    }
+
+    .weather-info {
+        padding: var(--padding-lg);
+    }
+
+    .weather-display-card {
+        max-width: 280px;
+        padding: var(--padding-lg);
+    }
+}
+
+/* Mobile: stack everything into a single column */
+@media (max-width: 640px) {
+    .container {
+        padding: 12px;
+    }
+
+    .weather-card {
+        min-height: auto;
+        padding: var(--padding-md);
+        gap: 1rem;
+    }
+
+    .weather-main {
+        flex-direction: column;   /* stack detailed + info vertically */
+        height: auto;
+    }
+
+    .weather-detailed,
+    .weather-info {
+        flex: 1 1 auto;
+        width: 100%;
+        height: auto;
+        padding: var(--padding-md);
+    }
+
+    .search-box {
+        max-width: 100%;
+    }
+
+    .weather-display-card {
+        max-width: 100%;
+        padding: var(--padding-md);
+    }
+
+    #weather-temp {
+        font-size: var(--font-size-2xl);
+    }
 }
