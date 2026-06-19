@@ -134,8 +134,11 @@ async function getWeatherData(city) {
 
         const data = await response.json();
         const temperature = data.current.temp_c;
+        const tempRoundOff = Math.round(temperature);
         const wind_speed = data.current.wind_kph;
+        const speedRoundOff = Math.round(wind_speed);
         const feels_like = data.current.feelslike_c;
+        const feelsRoundOff = Math.round(feels_like);
         const humidity = data.current.humidity;
         const condition = data.current.condition.text;
         const is_day = data.current.is_day; // 1 = day, 0 = night
@@ -149,12 +152,13 @@ async function getWeatherData(city) {
         const weatherDesc = document.querySelector('#weather-desc');
         const weatherHumidity = document.querySelector("#humidity");
         const feelsLike = document.querySelector("#feels-like");
-        weatherTemp.innerHTML = `${temperature}°C`; // correct
-        weatherIcon.src = iconURL; //correct
-        weatherWind.innerHTML = `${wind_speed} Km/hr` // correct
-        weatherDesc.innerHTML = `${condition}`; // bug
-        weatherHumidity.innerHTML = `${humidity}%`; // bug
-        feelsLike.innerHTML = `${feels_like}°C` // bug
+        weatherTemp.innerHTML = `${tempRoundOff}°C`; 
+        weatherIcon.src = iconURL; 
+        weatherWind.innerHTML = `Wind Speed | ${speedRoundOff} Km/hr` 
+        weatherDesc.innerHTML = `${condition}`; 
+        weatherHumidity.innerHTML = `Humidity | ${humidity}%`;
+        feelsLike.innerHTML = `Feels Like | ${feelsRoundOff}°C`;
+        
 
 
 
