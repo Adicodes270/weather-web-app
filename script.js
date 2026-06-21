@@ -152,14 +152,29 @@ async function getWeatherData(city) {
         const weatherDesc = document.querySelector('#weather-desc');
         const weatherHumidity = document.querySelector("#humidity");
         const feelsLike = document.querySelector("#feels-like");
-        weatherTemp.innerHTML = `${tempRoundOff}°C`; 
-        weatherIcon.src = iconURL; 
-        weatherWind.innerHTML = `Wind Speed | ${speedRoundOff} Km/hr` 
-        weatherDesc.innerHTML = `${condition}`; 
+        weatherTemp.innerHTML = `${tempRoundOff}°C`;
+        weatherIcon.src = iconURL;
+        weatherWind.innerHTML = `Wind Speed | ${speedRoundOff} Km/hr`
+        weatherDesc.innerHTML = `${condition}`;
         weatherHumidity.innerHTML = `Humidity | ${humidity}%`;
         feelsLike.innerHTML = `Feels Like | ${feelsRoundOff}°C`;
-        
 
+        const localTime = new Date(data.location.localtime.replace(' ', 'T'));
+
+        
+        const dayName = localTime.toLocaleDateString('en-US', { weekday: 'long' });
+
+        
+        const formattedDate = localTime.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        console.log(dayName);        
+        console.log(formattedDate);  
+
+        
 
 
         console.log(weatherTemp);
@@ -168,6 +183,7 @@ async function getWeatherData(city) {
         console.log(`Feels Like  = ${feels_like}°C`);
         console.log(`Humidity    = ${humidity}%`);
         console.log(`Condition   = ${condition}`);
+    
 
     } catch (error) {
         console.log(`Error found : ${error}`);
