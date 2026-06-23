@@ -124,9 +124,20 @@ function getWeatherIcon(condition, is_day = 1) {
 }
 
 
-// Updated getWeatherData to also pass is_day
+
+const weatherTemp = document.querySelector('#weather-temp');
+const weatherIcon = document.querySelector('#weather-icon');
+const weatherWind = document.querySelector('#wind-speed');
+const weatherDesc = document.querySelector('#weather-desc');
+const weatherHumidity = document.querySelector("#humidity");
+const feelsLike = document.querySelector("#feels-like");
+const timeText = document.querySelector("#time");
+const dateText = document.querySelector("#date");
+const greeting = document.querySelector("#greeting");
+
+
 async function getWeatherData(city) {
-    const url = `https://api.weatherapi.com/v1/current.json?key=ebcb9bb3bf45435280d115810260906&q=${city}&aqi=no`;
+    const url = `https://weather-web-app.adityaalt9090.workers.dev/api/weather?q=${encodeURIComponent(city)}`;
 
     try {
         const response = await fetch(url);
@@ -145,15 +156,10 @@ async function getWeatherData(city) {
 
         const iconURL = getWeatherIcon(condition, is_day);
 
-        const weatherInfo = document.querySelector(".weather-info");
-        const weatherTemp = document.querySelector('#weather-temp');
-        const weatherIcon = document.querySelector('#weather-icon');
-        const weatherWind = document.querySelector('#wind-speed');
-        const weatherDesc = document.querySelector('#weather-desc');
-        const weatherHumidity = document.querySelector("#humidity");
-        const feelsLike = document.querySelector("#feels-like");
-        weatherTemp.innerHTML = `${tempRoundOff}°C`;
+
         weatherIcon.src = iconURL;
+        weatherTemp.innerHTML = `${tempRoundOff}°C`;
+        
         weatherWind.innerHTML = `Wind Speed | ${speedRoundOff} Km/hr`
         weatherDesc.innerHTML = `${condition}`;
         weatherHumidity.innerHTML = `Humidity | ${humidity}%`;
@@ -161,29 +167,51 @@ async function getWeatherData(city) {
 
         const localTime = new Date(data.location.localtime.replace(' ', 'T'));
 
-        
+
         const dayName = localTime.toLocaleDateString('en-US', { weekday: 'long' });
 
-        
+
         const formattedDate = localTime.toLocaleDateString('en-GB', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         });
 
-        console.log(dayName);        
-        console.log(formattedDate);  
+        const formattedTime = localTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+
+        timeText.innerHTML = ` ${formattedTime} `;
+        dateText.innerHTML = `${dayName}, ${formattedDate}`;
+
+
+        const hour = localTime.getHours();
+        let greetText;
+        if (hour >= 5 && hour < 12) {
+            greetText = "Good Morning";
+        } else if (hour >= 12 && hour < 17) {
+            greetText = "Good Afternoon";
+        } else if (hour >= 17 && hour < 21) {
+            greetText = "Good Evening";
+        } else {
+            greetText = "Go Sleep, Good Night";
+        }
+
+        greeting.innerHTML = greetText;
+
+
+
+
 
         
-
-
-        console.log(weatherTemp);
         console.log(`Temperature = ${temperature}°C`);
         console.log(`Wind Speed  = ${wind_speed} km/h`);
         console.log(`Feels Like  = ${feels_like}°C`);
         console.log(`Humidity    = ${humidity}%`);
         console.log(`Condition   = ${condition}`);
-    
+
 
     } catch (error) {
         console.log(`Error found : ${error}`);

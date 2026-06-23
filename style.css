@@ -47,6 +47,7 @@ body {
     align-items: stretch;
     gap: 1.8rem;
     transition: transform 0.3s ease;
+    box-shadow: var(--lgs);
 }
 
 /* ============================
@@ -67,10 +68,10 @@ body {
     flex: 0 0 70%;
     height: 85vh;
     gap: 0.5rem; 
-    background: linear-gradient(135deg, rgb(0, 0, 0), rgba(15, 39, 39, 0.801));
+    background: linear-gradient(135deg, rgb(0, 0, 0), rgba(27, 35, 37, 0.801));
     border: 1px solid rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    /* backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px); */
     border-radius: 28px;
     padding: var(--padding-xl);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -81,6 +82,7 @@ body {
     
     /* gap: 1.8rem; */
     transition: transform 0.3s ease;
+     box-shadow: var(--lgs);
 }
 
 
@@ -89,9 +91,9 @@ body {
     height: 100%;
     
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgb(7, 6, 6);
+    /* backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px); */
     border-radius: 28px;
     padding: var(--padding-xl);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -100,6 +102,7 @@ body {
     align-items: center;
     gap: 1.8rem;
     transition: transform 0.3s ease;
+    box-shadow: var(--lgs);
 }
 
 /* ============================
@@ -173,8 +176,9 @@ body {
 .weather-icon {
     font-size: 5.5rem;
     margin-bottom: 0.5rem;
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 8px 16px rgba(56, 189, 248, 0.08));
     animation: float 4s ease-in-out infinite;
+    
 }
 
 #weather-icon {
@@ -201,8 +205,8 @@ body {
     margin: 0 auto;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
     border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    /* backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px); */
     border-radius: 28px;
     padding: var(--padding-xl);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -218,8 +222,8 @@ body {
     width: 100%;
     background: hsl(0, 0%, 10%);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    /* backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px); */
     border-radius: 28px;
     padding: var(--padding-xl);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -228,6 +232,28 @@ body {
     align-items: center;
     gap: 1rem;
     transition: transform 0.3s ease;
+}
+
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-teritary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: var(--font-size-lg);
+    color: var(--text-primary-color);
+    font-weight: 600;
 }
 
 /* ============================
@@ -293,4 +319,19 @@ body {
     #weather-temp {
         font-size: var(--font-size-2xl);
     }
+}
+
+#time{
+    font-size: 3.5rem;
+    font-weight: 500;
+    color : var(--text-secondary-color)
+}
+
+
+#date {
+    font-size: 1.5rem;
+}
+
+#greeting {
+    font-size: 2.5rem;
 }
