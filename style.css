@@ -198,9 +198,10 @@ body {
 }
 
 .weather-display-card {
+    min-height: 660px;
     width: 100%;
     max-width: 425px;
-    min-height: 0;
+    /* min-height: 0; */
     flex: 1;
     margin: 0 auto;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));

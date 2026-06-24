@@ -134,6 +134,9 @@ const feelsLike = document.querySelector("#feels-like");
 const timeText = document.querySelector("#time");
 const dateText = document.querySelector("#date");
 const greeting = document.querySelector("#greeting");
+const errorIcon = document.querySelector('#error-icon');
+const minorDetails = document.querySelector(".minor-details");
+const weatherInfo = document.querySelector(".weather-display-card");
 
 
 async function getWeatherData(city) {
@@ -152,14 +155,16 @@ async function getWeatherData(city) {
         const feelsRoundOff = Math.round(feels_like);
         const humidity = data.current.humidity;
         const condition = data.current.condition.text;
-        const is_day = data.current.is_day; // 1 = day, 0 = night
-
+        const is_day = data.current.is_day;
         const iconURL = getWeatherIcon(condition, is_day);
 
 
+        weatherIcon.style.display = '';
+        errorIcon.style.display = 'none';
         weatherIcon.src = iconURL;
         weatherTemp.innerHTML = `${tempRoundOff}°C`;
-        
+        weatherInfo.style.gap = '';
+
         weatherWind.innerHTML = `Wind Speed | ${speedRoundOff} Km/hr`
         weatherDesc.innerHTML = `${condition}`;
         weatherHumidity.innerHTML = `Humidity | ${humidity}%`;
@@ -205,7 +210,7 @@ async function getWeatherData(city) {
 
 
 
-        
+
         console.log(`Temperature = ${temperature}°C`);
         console.log(`Wind Speed  = ${wind_speed} km/h`);
         console.log(`Feels Like  = ${feels_like}°C`);
@@ -215,11 +220,33 @@ async function getWeatherData(city) {
 
     } catch (error) {
         console.log(`Error found : ${error}`);
+
+        // Instead of setting weatherIcon.src, hide the img and show an icon
+        weatherIcon.style.display = 'none';
+        errorIcon.style.display = 'block';
+        weatherTemp.innerHTML = `No City named ${city} was found`;
+
+        weatherDesc.innerHTML = ``;
+        weatherInfo.style.gap = `2.2rem`;
+
+
+
+        timeText.innerHTML = '--:--';
+        dateText.innerHTML = 'City not found';
+
+
+        greeting.innerHTML = "";
+
+
     }
 }
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    fetch("https://weather-web-app.adityaalt9090.workers.dev/api/weather?q=London")
+        .catch(() => {}); 
+
+    
     const searchbtn = document.getElementById("search-btn");
     const cityInput = document.getElementById('city-input');
 
@@ -233,6 +260,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             console.clear();
             getWeatherData(text);
             const weatherDisplay = document.querySelector('.weather-display');
+
+            
             weatherDisplay.classList.remove('hidden')
         }
     };

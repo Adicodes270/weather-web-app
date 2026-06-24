@@ -9,11 +9,13 @@
     <meta name="description" content="Weather WebApp Created By Adicodes270">
     <link rel="icon" type="image/x-icon" href="">
 
-    <link rel="preconnect" href="https://api.weatherapi.com">
+    <link rel="preconnect" href="https://weather-web-app.adityaalt9090.workers.dev">
+    <link rel="dns-prefetch" href="https://weather-web-app.adityaalt9090.workers.dev">
     <link rel="preconnect" href="https://cdn.meteocons.com">
     <link rel="dns-prefetch" href="https://cdn.meteocons.com">
 
     
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -57,22 +59,24 @@
                     <div class="weather-display hidden">
 
                         <div class="weather-display-card">
-                            <img id="weather-icon" src="" alt="icon">
-                            <h1 id="weather-desc">--</h1>
+                            <img id="weather-icon" src="" alt="loading">
+                            <i id="error-icon" class="fa-solid fa-triangle-exclamation"
+                                style="display:none; font-size: 8rem; color: #e74c3c;"></i>
+                            <h1 id="weather-desc">Loading</h1>
                             <h1 id="weather-temp">--°C</h1>
 
                             <div class="minor-details">
                                 <div class="stat">
                                     <span class="stat-label">Wind</span>
-                                    <span class="stat-value" id="wind-speed">--</span>
+                                    <span class="stat-value" id="wind-speed">Loading</span>
                                 </div>
                                 <div class="stat">
                                     <span class="stat-label">Humidity</span>
-                                    <span class="stat-value" id="humidity">--</span>
+                                    <span class="stat-value" id="humidity">Loading</span>
                                 </div>
                                 <div class="stat">
                                     <span class="stat-label">Feels Like</span>
-                                    <span class="stat-value" id="feels-like">--</span>
+                                    <span class="stat-value" id="feels-like">Loading</span>
                                 </div>
                             </div>
 
