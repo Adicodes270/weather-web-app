@@ -135,7 +135,40 @@ const minorDetails = document.querySelector(".minor-details");
 const timeText = document.querySelector("#time");
 const dateText = document.querySelector("#date");
 
+async function get7DayForecast(city) {
+    try {
+        // Step 1: Resolve plain city text into raw coordinates
+        const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&format=json`;
+        const geoRes = await fetch(geoUrl);
+        const geoData = await geoRes.json();
 
+        if (!geoData.results || geoData.results.length === 0) return;
+
+        const { latitude, longitude, name } = geoData.results[0];
+
+        // Step 2: Query Open-Meteo metrics with additional keys appended to the URL
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,relative_humidity_2m_mean&timezone=auto`;
+        const weatherRes = await fetch(weatherUrl);
+        const weatherData = await weatherRes.json();
+
+        const daily = weatherData.daily;
+        
+        console.log(`--- 7-DAY FORECAST FOR ${name.toUpperCase()} ---`);
+
+        for (let i = 0; i < daily.time.length; i++) {
+            console.log(
+                `Date: ${daily.time[i]} | ` +
+                `Max Temp: ${daily.temperature_2m_max[i]}°C | ` +
+                `Feels Like (Max): ${daily.apparent_temperature_max[i]}°C | ` +
+                `Wind Speed Max: ${daily.wind_speed_10m_max[i]} km/h | ` +
+                `Avg Humidity: ${daily.relative_humidity_2m_mean[i]}% | ` +
+                `WMO Code: ${daily.weather_code[i]}`
+            );
+        }
+    } catch (e) {
+        console.log(`Open-Meteo Logging Error: ${e.message}`);
+    }
+}
 // Updated getWeatherData to also pass is_day
 async function getWeatherData(city) {
     const url = `https://api.weatherapi.com/v1/current.json?key=ebcb9bb3bf45435280d115810260906&q=${city}&aqi=no`;
@@ -251,6 +284,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             console.clear();
             getWeatherData(text);
+            get7DayForecast(text);
             const weatherDisplay = document.querySelector('.weather-display');
 
 
