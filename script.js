@@ -140,7 +140,7 @@ const weatherInfo = document.querySelector(".weather-display-card");
 
 
 async function getWeatherData(city) {
-    const url = `https://weather-web-app.adityaalt9090.workers.dev/api/weather?q=${encodeURIComponent(city)}`;
+    const url = `https://weather-web-app.adityaalt9090.workers.dev/?q=${encodeURIComponent(city)}`;
 
     try {
         const response = await fetch(url);
@@ -243,7 +243,7 @@ async function getWeatherData(city) {
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    fetch("https://weather-web-app.adityaalt9090.workers.dev/api/weather?q=London")
+    fetch("https://weather-web-app.adityaalt9090.workers.dev/q?=London")
         .catch(() => {}); 
 
     
