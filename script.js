@@ -122,25 +122,23 @@ function getWeatherIcon(condition, is_day = 1) {
 
     return day ? `${CDN}/partly-cloudy-day.svg` : `${CDN}/partly-cloudy-night.svg`;
 }
-
-
-
+const weatherInfo = document.querySelector(".weather-info");
 const weatherTemp = document.querySelector('#weather-temp');
 const weatherIcon = document.querySelector('#weather-icon');
 const weatherWind = document.querySelector('#wind-speed');
 const weatherDesc = document.querySelector('#weather-desc');
 const weatherHumidity = document.querySelector("#humidity");
 const feelsLike = document.querySelector("#feels-like");
-const timeText = document.querySelector("#time");
-const dateText = document.querySelector("#date");
 const greeting = document.querySelector("#greeting");
 const errorIcon = document.querySelector('#error-icon');
 const minorDetails = document.querySelector(".minor-details");
-const weatherInfo = document.querySelector(".weather-display-card");
+const timeText = document.querySelector("#time");
+const dateText = document.querySelector("#date");
 
 
+// Updated getWeatherData to also pass is_day
 async function getWeatherData(city) {
-    const url = `https://weather-web-app.adityaalt9090.workers.dev/?q=${encodeURIComponent(city)}`;
+    const url = `https://api.weatherapi.com/v1/current.json?key=ebcb9bb3bf45435280d115810260906&q=${city}&aqi=no`;
 
     try {
         const response = await fetch(url);
@@ -155,15 +153,14 @@ async function getWeatherData(city) {
         const feelsRoundOff = Math.round(feels_like);
         const humidity = data.current.humidity;
         const condition = data.current.condition.text;
-        const is_day = data.current.is_day;
-        const iconURL = getWeatherIcon(condition, is_day);
+        const is_day = data.current.is_day; // 1 = day, 0 = night
 
+        const iconURL = getWeatherIcon(condition, is_day);
 
         weatherIcon.style.display = '';
         errorIcon.style.display = 'none';
         weatherIcon.src = iconURL;
         weatherTemp.innerHTML = `${tempRoundOff}°C`;
-        weatherInfo.style.gap = '';
 
         weatherWind.innerHTML = `Wind Speed | ${speedRoundOff} Km/hr`
         weatherDesc.innerHTML = `${condition}`;
@@ -209,8 +206,7 @@ async function getWeatherData(city) {
 
 
 
-
-
+        console.log(weatherTemp);
         console.log(`Temperature = ${temperature}°C`);
         console.log(`Wind Speed  = ${wind_speed} km/h`);
         console.log(`Feels Like  = ${feels_like}°C`);
@@ -221,7 +217,6 @@ async function getWeatherData(city) {
     } catch (error) {
         console.log(`Error found : ${error}`);
 
-        // Instead of setting weatherIcon.src, hide the img and show an icon
         weatherIcon.style.display = 'none';
         errorIcon.style.display = 'block';
         weatherTemp.innerHTML = `No City named ${city} was found`;
@@ -229,7 +224,9 @@ async function getWeatherData(city) {
         weatherDesc.innerHTML = ``;
         weatherInfo.style.gap = `2.2rem`;
 
-
+         weatherWind.innerHTML = `--`;
+        weatherHumidity.innerHTML = `--`;
+        feelsLike.innerHTML = `--`;
 
         timeText.innerHTML = '--:--';
         dateText.innerHTML = 'City not found';
@@ -237,16 +234,11 @@ async function getWeatherData(city) {
 
         greeting.innerHTML = "";
 
-
     }
 }
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    fetch("https://weather-web-app.adityaalt9090.workers.dev/q?=London")
-        .catch(() => {}); 
-
-    
     const searchbtn = document.getElementById("search-btn");
     const cityInput = document.getElementById('city-input');
 
@@ -261,7 +253,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             getWeatherData(text);
             const weatherDisplay = document.querySelector('.weather-display');
 
-            
+
             weatherDisplay.classList.remove('hidden')
         }
     };
