@@ -134,6 +134,8 @@ const errorIcon = document.querySelector('#error-icon');
 const minorDetails = document.querySelector(".minor-details");
 const timeText = document.querySelector("#time");
 const dateText = document.querySelector("#date");
+const forecastContainer = document.querySelector(".forecast-container");
+
 
 async function get7DayForecast(city) {
     try {
@@ -152,7 +154,7 @@ async function get7DayForecast(city) {
         const weatherData = await weatherRes.json();
 
         const daily = weatherData.daily;
-        
+
         console.log(`--- 7-DAY FORECAST FOR ${name.toUpperCase()} ---`);
 
         for (let i = 0; i < daily.time.length; i++) {
@@ -165,11 +167,14 @@ async function get7DayForecast(city) {
                 `WMO Code: ${daily.weather_code[i]}`
             );
         }
+
+        
     } catch (e) {
         console.log(`Open-Meteo Logging Error: ${e.message}`);
     }
 }
-// Updated getWeatherData to also pass is_day
+
+
 async function getWeatherData(city) {
     const url = `https://api.weatherapi.com/v1/current.json?key=ebcb9bb3bf45435280d115810260906&q=${city}&aqi=no`;
 
@@ -257,7 +262,7 @@ async function getWeatherData(city) {
         weatherDesc.innerHTML = ``;
         weatherInfo.style.gap = `2.2rem`;
 
-         weatherWind.innerHTML = `--`;
+        weatherWind.innerHTML = `--`;
         weatherHumidity.innerHTML = `--`;
         feelsLike.innerHTML = `--`;
 
@@ -300,4 +305,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
             performSearch();
         }
     });
+    
 })
